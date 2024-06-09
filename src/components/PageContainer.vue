@@ -1,0 +1,123 @@
+<template>
+    <div class="main">
+        <el-container>
+  <el-aside width="250px">
+    <div class="logo">
+      <img id="logo" src="../assets/logo.png" alt="">
+    </div>
+    <el-menu
+      default-active="/"
+      class="menu"
+      router>
+      <el-menu-item index="/">
+        <i><img class ="icon" src="../assets/home.png" alt=""></i>
+        <span slot="title">首页</span>
+      </el-menu-item>
+      
+      <el-menu-item index="/notice">
+        <i><img class ="icon" src="../assets/message.png" alt=""></i>
+        <span slot="title">通知</span>
+      </el-menu-item>
+      <el-menu-item index="/search">
+        <i><img class ="icon" src="../assets/search.png" alt=""></i>
+        <span slot="title">搜索</span>
+      </el-menu-item>
+      <el-menu-item index="/create">
+        <i><img class ="icon" src="../assets/create.png" alt=""></i>
+        <span slot="title">新建</span>
+      </el-menu-item>
+      <el-menu-item index="/profile">
+        <i><img class ="icon" src="../assets/profile.png" alt=""></i>
+        <span slot="title">主页</span>
+      </el-menu-item>
+      <el-menu-item index="/more" id="more">
+        <i><img class ="icon" src="../assets/more.png" alt=""></i>
+        <span slot="title">更多</span>
+      </el-menu-item>
+      
+      
+    </el-menu>
+  </el-aside>
+  <el-container>
+    
+    <el-main>
+      <router-view></router-view>
+    </el-main>
+    
+  </el-container>
+</el-container>
+    </div>
+</template>
+
+
+<script>
+export default {
+  name: 'PageContainer',
+  data () {
+    return {
+     
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+.el-container,.main{
+  
+  height: 100%;
+}
+.icon{
+  width: 30px;
+  
+  margin-right: 12px;
+}
+.el-menu{
+  padding: 0;
+  margin-bottom: 0;
+  border-right: none;
+  
+}
+#more{
+  margin-top: 200px;
+}
+
+.el-aside {
+    
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+    border-right-color: #e2dede;
+    border-right-width: 0.8px;
+    border-right-style: solid;
+  }
+  
+  .el-main {
+    
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+  }
+  
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+  .el-menu-item{
+    height: 60px;
+    text-align: justify; 
+    font-size: 20px;
+    margin-left: 10px;
+    font-family: "Microsoft YaHei","微软雅黑";
+  }
+  
+  .icon{
+    margin-bottom: 5px;
+  }
+  
+  #logo{
+    width: 70px;
+    margin-right: 100px;
+  }
+
+</style>
