@@ -13,13 +13,7 @@
                 placeholder="请输入密码"
             ></el-input>
           </el-form-item>
-          <el-form-item label="确认密码" prop="cfmpassword" size="large">
-            <el-input
-                v-model="form.cfmpassword"
-                type="password"
-                placeholder="请确认密码"
-            ></el-input>
-          </el-form-item>
+          
           <div class="btn_part">
             <div><el-button type="primary" class="btn" @click="register">注册</el-button></div>
             <div class="txt-r">
@@ -42,76 +36,68 @@
   
     name: "Register",
     data () {
-      const validateCfmPassword = (rule,value,callback) =>{
-        if(value !== this.form.password ){
-          callback(new Error("两次输入密码不一致"));
-        }
-        callback();
-      }
+     
       return{
         form : {
           username : '',
-          password : '',
-          cfmpassword : ''
+          password : ''
+          
         },
-        rules : {
-          username : {
-            required : true,
-            message : "请输入用户名",
-            trigger : ['change']
-          },
-          password : {
-            required : true,
-            message : "长度至少为2位",
-            min : 2,
-            trigger : ['change']
-          },
-          cfmpassword: [
-            {
-              required : true,
-              message : "请确认密码",
-              trigger : ['change']
-            },
-            {
-              validator : validateCfmPassword,
-              trigger: ['change','blur']
-            }
-          ]
-        }
+        // rules : {
+        //   username : {
+        //     required : true,
+        //     message : "请输入用户名",
+        //     trigger : ['change']
+        //   },
+        //   password : {
+        //     required : true,
+        //     message : "长度至少为2位",
+        //     min : 2,
+        //     trigger : ['change']
+        //   },
+        //   cfmpassword: [
+        //     {
+        //       required : true,
+        //       message : "请确认密码",
+        //       trigger : ['change']
+        //     },
+        //     {
+        //       validator : validateCfmPassword,
+        //       trigger: ['change','blur']
+        //     }
+        //   ]
+        // }
   
       }
     },
     methods : {
-    //   register(){
-    //     let _this = this;
-    //     this.$refs.form.validate((valid => {
-    //       if(valid){
-  
-    //         axios({
-    //           method : "post",
-    //           url : "http://localhost/user/register",
-    //           data : {
-    //             "username" :  _this.form.username,
-    //             "password" : _this.form.password
-    //           }
-    //         }).then(function(resp){
-    //           if(resp.data.code === 200){
-    //             _this.$message({
-    //               message : '注册成功',
-    //               type : 'success'
-    //             })
-    //             router.push("/user/login");
-    //           }else if(resp.data.code === 400){
-    //             _this.$message({
-    //               message : '用户名已存在',
-    //               type : 'error'
-    //             })
-    //             //_this.form.username = '';
-    //           }
-    //         })
-    //       }
-    //     }))
-    //   }
+        register(){
+            let requestInstance = new Request('http://127.0.0.1:8081/api/user/register', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+
+                    },
+                    body: JSON.stringify(this.form)
+                })
+                fetch(requestInstance).then(response => {
+
+                    let result = response.json()
+                    result.then(res => {
+                        localStorage.setItem('user',JSON.stringify(res.data))
+                        console.log(res);
+                        if (res.code === '000') {
+                            this.$router.replace('/home')
+
+                            this.$message({
+                                message: '注册成功！',
+                                type: 'success'
+                            });
+
+                        }
+                    })
+                })
+        }
     }
   
   }

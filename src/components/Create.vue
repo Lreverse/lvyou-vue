@@ -57,7 +57,9 @@ export default {
   },
   methods: {
     onSubmit(){
-        const token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwianRpIjoiYmFmZWU4NTctYWViYi00ZDI4LTg1NTItMTdhMjI5ODY2OWU4IiwiZXhwIjoxNzE3OTA3MjgzLCJpYXQiOjE3MTc5MDU0ODMsImlzcyI6ImxpdXl1aGFuZyJ9.244iv5RSwCJe56K0bKmSQqE8GCd1Z2MHX7x6_Tb3xkY"
+        const user =JSON.parse(localStorage.getItem('user'))
+        const token = user.accessToken;
+
         let requestInstance = new Request('http://127.0.0.1:8081/api/schedule', {
                 method: 'post',
                 headers: {
@@ -72,7 +74,7 @@ export default {
                 result.then(res => {
                     console.log(res);
                     if(res.code === '000'){
-                        this.$router.replace('/')
+                        this.$router.replace('/home')
 
                         this.$message({
                              message: '创建行程成功！',

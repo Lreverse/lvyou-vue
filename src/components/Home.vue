@@ -70,7 +70,16 @@
       }
     },
     mounted(){
-      fetch("http://127.0.0.1:8081/api/schedule")
+
+      const user =JSON.parse(localStorage.getItem('user'))
+      const token = user.accessToken;
+      
+      fetch(new Request('http://127.0.0.1:8081/api/schedule',{
+        method: 'get',
+        headers: {
+          'Authorization': token
+        }
+      }))
       .then(response => response.json())
       .then((data)=> this.schedules = data.data);
       //data.data 刚开始没写 我还奇怪数据库就两条数据，为什么给我渲染了三条

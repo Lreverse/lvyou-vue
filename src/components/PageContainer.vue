@@ -6,10 +6,10 @@
       <img id="logo" src="../assets/logo.png" alt="">
     </div>
     <el-menu
-      default-active="/"
+      default-active="/home"
       class="menu"
       router>
-      <el-menu-item index="/">
+      <el-menu-item index="/home">
         <i><img class ="icon" src="../assets/home.png" alt=""></i>
         <span slot="title">首页</span>
       </el-menu-item>
@@ -30,9 +30,17 @@
         <i><img class ="icon" src="../assets/profile.png" alt=""></i>
         <span slot="title">主页</span>
       </el-menu-item>
-      <el-menu-item index="/more" id="more">
+      <el-menu-item  id="more">
         <i><img class ="icon" src="../assets/more.png" alt=""></i>
-        <span slot="title">更多</span>
+        <span slot="title">
+          <el-dropdown @command="handleCommand">
+  <span style="font-size: 20px;color: black;">更多</span>
+  <el-dropdown-menu slot="dropdown" >
+   
+    <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
+        </span>
       </el-menu-item>
       
       
@@ -56,6 +64,18 @@ export default {
   data () {
     return {
      
+    }
+  },
+  methods: {
+    handleCommand(command){
+      if(command === 'logout'){
+        localStorage.removeItem('user');
+        this.$router.replace('/login');
+        this.$message({
+                                message: '退出登录',
+                                type: 'success'
+                            });
+      }
     }
   }
 }
