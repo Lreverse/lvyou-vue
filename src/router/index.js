@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Detail from '@/components/Detail'
-import Register from '@components/Register'
 import Create from '@/components/Create'
 import Login from '@/components/Login'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
@@ -19,8 +19,9 @@ export default new Router({
       component: Login
     },
     {
-      path: 'register',
-      component: 'Register'
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/detail/:scheduleId',

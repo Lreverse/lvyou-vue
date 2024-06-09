@@ -1,0 +1,44 @@
+.flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sign-box{
+    width: 50%;
+    height: 60%;
+    background-color: #fff;
+    padding: 30px 30px 0;
+    border-radius: 4px;
+    box-shadow: 0 0 25px #cac6c6;
+}
+.btn{
+
+    width: 100px;
+    height: 50px;
+}
+.btn_part{
+    position: relative;
+    top: 30px;
+}
+.login_btn_part{
+    position: relative;
+    top: 92px;
+}
+.txt-r{
+    width: 100%;
+    text-align: end;
+
+}
+.title{
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+    margin-bottom: 25px;
+}
+a{
+    color: blue;
+    text-decoration: none;
+}
+.page{
+    height: 84vh;
+}

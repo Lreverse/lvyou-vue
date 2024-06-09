@@ -32,10 +32,31 @@ export default {
   name: 'Login',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+        form : {
+        username : '',
+        password : '',
+      },
+      rules : {
+        username : {
+          required : true,
+          message : "请输入用户名",
+          trigger : ['change']
+        },
+        password : {
+          required : true,
+          message : "长度至少为2位",
+          min : 2,
+          trigger : ['change']
+        }
+
+
+      }
+
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+@import url(./index.css);
+</style>
