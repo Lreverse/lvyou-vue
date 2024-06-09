@@ -23,7 +23,7 @@
           <div class="btn_part">
             <div><el-button type="primary" class="btn" @click="register">注册</el-button></div>
             <div class="txt-r">
-              <router-link to="/user/login">已有帐号？去登录</router-link>
+              <router-link to="/login">已有帐号？去登录</router-link>
             </div>
           </div>
   
