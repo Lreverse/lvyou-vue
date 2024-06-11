@@ -69,6 +69,12 @@ export default {
   methods: {
     handleCommand(command){
       if(command === 'logout'){
+        fetch("http://127.0.0.1:8081/api/user/logout")
+        .then(response => response.json())
+        .then((data) => {
+          console.log(data);
+          
+        })
         localStorage.removeItem('user');
         this.$router.replace('/login');
         this.$message({

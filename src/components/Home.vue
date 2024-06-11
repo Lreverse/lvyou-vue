@@ -71,17 +71,34 @@
     },
     mounted(){
 
-      const user =JSON.parse(localStorage.getItem('user'))
-      const token = user.accessToken;
-      
-      fetch(new Request('http://127.0.0.1:8081/api/schedule',{
+      function fetchData(accessToken){
+        
+      return  fetch(new Request('http://127.0.0.1:8081/api/schedule',{
         method: 'get',
         headers: {
-          'Authorization': token
+          'Authorization': accessToken
         }
-      }))
-      .then(response => response.json())
-      .then((data)=> this.schedules = data.data);
+      })).then(response => {
+        return response.json().then(data =>{
+          if(data.code == "A020"){
+            return fetchData(data.accessToken);
+          }else{
+            return data;
+          }
+        })
+      })
+      } 
+      
+
+      const user =JSON.parse(localStorage.getItem('user'))
+      const token = user.accessToken;
+      //const token1 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwianRpIjoiYjBhODgyOTQtODE2My00ODNmLWI0ODEtOWY0ZDUyMWNiMmZmIiwiZXhwIjoxNzE3NjU3NDc2LCJpYXQiOjE3MTc2NTU2NzYsImlzcyI6ImxpdXl1aGFuZyJ9.MZojM3_aJnDx5KkC7dIRuw8-MAmr0XOO6sHkLrqIun0'
+      fetchData(token)
+        .then(data => {
+          this.schedules = data.data;
+          console.log(data);
+        });
+      
       //data.data 刚开始没写 我还奇怪数据库就两条数据，为什么给我渲染了三条
       //刚开始用的axios，但是不知道为什么报跨域的错误，我后端已经配置了
       //然后试了一下fetch可以，不过我fetch写的是127.0.0.1,axios写的是localhost是这个原因吗？
