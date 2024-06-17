@@ -4,22 +4,22 @@
     <el-col :span="14" :offset="2">
       <el-card :body-style="{ padding: '15px' }">
 
-        <!-- <el-row class="card-header">
+        <el-row class="card-header">
                     <el-col>
                         <el-avatar
-                            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                            :src="schedule.user.avatarSrc"></el-avatar>
                         <span id="username"
                             style="position:absolute;margin-left:10px;font-size: 16px;font-weight: bold;font-family: 'Courier New', Courier, monospace;">
-                            {{schedule.userBO.username}}
+                            {{schedule.user.username}}
                         </span>
                     </el-col>
-                </el-row> -->
+                </el-row>
         <el-row class="card-image">
           <el-col>
 
             <div class="block">
               <el-carousel trigger="click" indicator-position="none" :autoplay="false">
-                <el-carousel-item v-for="(value, key, index) in JSON.parse(this.schedule.images)" :key="index">
+                <el-carousel-item v-for="(value, key, index) in this.schedule.images" :key="index">
                   <div style="height: 100%;"><img style="height: 100%;" :src="value" alt=""></div>
 
                 </el-carousel-item>
@@ -30,13 +30,14 @@
         </el-row>
         <el-row class="card-content">
           <el-row
-            style="line-height: 34px;margin-top: 10px;margin-bottom:10px;text-align: justify;font-size: large;font-weight: bold;">
+            style="line-height: 34px;margin-top: 35px;margin-bottom:10px;text-align: justify;font-size: large;font-weight: bold;">
             <el-col :span="5">{{ schedule.title }}</el-col>
-            <el-col :span="5" :push="10">
+            <el-col :span="5" :push="13">
               <el-button type="primary" round @click="submitApplication"
                 v-if="schedule.applicationState === 'UNAPPLY'">申请组队</el-button>
-              <el-tag type="success" v-if="schedule.applicationState === 'APPROVE'"><i
-                  class="el-icon-check">申请通过</i></el-tag>
+              
+                  <el-tag type="success" v-if="schedule.applicationState === 'INVITED' || schedule.applicationState === 'APPROVE'"><i
+                    class="el-icon-check">已加入队伍</i></el-tag>
               <el-tag type="danger" v-if="schedule.applicationState === 'REJECT'"><i
                   class="el-icon-close">申请被拒绝</i></el-tag>
               <el-tag type="success" v-if="schedule.applicationState === 'UNCHECK'"><i

@@ -18,7 +18,7 @@
 
             <div class="block">
               <el-carousel trigger="click" indicator-position="none" :autoplay=false>
-                <el-carousel-item v-for="(value, key, index) in JSON.parse(schedule.images)" :key="index">
+                <el-carousel-item v-for="(value,  index) in JSON.parse(schedule.images)" :key="index">
                   <div style="height: 100%;"><img style="height: 100%;" :src="value" alt=""></div>
 
                 </el-carousel-item>
@@ -32,7 +32,12 @@
             style="line-height: 34px;margin-top: 10px;margin-bottom:10px;text-align: justify;font-size: large;font-weight: bold;">
             <el-col :span="5"><router-link
                 :to="{ path: `/detail/${schedule.scheduleId}` }">{{ schedule.title }}</router-link></el-col>
-            <el-col :span="5" :push="10"><el-tag>aaa</el-tag>&nbsp;<el-tag>aaa</el-tag></el-col>
+            <el-col :span="10" :push="9" style="position: relative;top: 25px;">
+              <el-tag>{{schedule.maxNumber}}人</el-tag>
+              <el-tag>{{schedule.departAt.toString().replace("T", ' ')}}出发</el-tag>
+              <el-tag type="success" v-if="schedule.state === 'OPEN'">开放</el-tag>
+              <el-tag type="danger" v-if="schedule.state === 'CLOSE'">关闭</el-tag>
+            </el-col>
 
           </el-row>
           <el-row style="line-height: 16px;text-align: justify;font-family: 'Courier New', Courier, monospace;">
@@ -113,6 +118,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.el-tag{
+  margin-right: 4px;
+}
+
 .card-header {
   line-height: 50px;
   text-align: justify;
