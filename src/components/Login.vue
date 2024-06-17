@@ -3,7 +3,7 @@
         <div class="sign-box">
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">
                 <h3 class="title">登录</h3>
-                <a href="javascript:;" @click="switchType">{{ text }}</a>
+                <el-link class="switch" type="primary" @click="switchType">{{ text }}</el-link>
                 <div v-if="type === 'username'">
                     <el-form-item label="用户名" size="large">
                         <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
@@ -25,7 +25,7 @@
                         
                     </el-form-item>
                 </div>
-                <div class="login_btn_part">
+                <div class="btn_part">
                     <div><el-button type="primary" class="btn" @click="login">登录</el-button></div>
                     <div class="txt-r">
                         <router-link to="/register">没有帐号？去注册</router-link>

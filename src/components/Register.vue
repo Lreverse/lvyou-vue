@@ -3,7 +3,7 @@
     <div class="sign-box">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <h3 class="title">注册</h3>
-        <a href="javascript:;" @click="switchType">{{ text }}</a>
+        <el-link class="switch" type="primary" @click="switchType">{{ text }}</el-link>
         <div v-if="type === 'username'">
           <el-form-item label="用户名" prop="username" size="large">
             <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
