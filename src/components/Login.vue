@@ -16,9 +16,11 @@
                     <el-form-item label="邮箱地址" size="large">
                         <el-input v-model="form.mailAddress" placeholder="邮箱"></el-input>
                     </el-form-item>
-                    <el-form-item label="验证码" size="small">
-                        <el-input v-model="form.code" size="small" placeholder="请输入验证码">
-                                <template #append><el-button @click="sendVerifyCode">发送验证码</el-button></template>
+                    <el-form-item label="验证码" size="large">
+                        <el-input v-model="form.code" size="large" placeholder="请输入验证码">
+                            <template #append>
+                                <el-button type="primary" @click="sendVerifyCode" plain>发送验证码</el-button>
+                            </template>
                         </el-input>
                         
                     </el-form-item>
