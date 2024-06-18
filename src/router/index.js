@@ -12,8 +12,8 @@ import Profile from '@/components/Profile'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',   // 路由模式，该模式不会在地址中显示井号#
   routes: [
-   
     {
       path: '/',
       redirect: '/login'
