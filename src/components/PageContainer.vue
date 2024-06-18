@@ -5,7 +5,7 @@
         <div class="logo">
           <img id="logo" src="../assets/logo.png" alt="">
         </div>
-        <el-menu default-active="/home" class="menu" router>
+        <el-menu :default-active="active" class="menu" router>
           <el-menu-item index="/home">
             <i><img class="icon" src="../assets/home.png" alt=""></i>
             <span slot="title">首页</span>
@@ -62,15 +62,36 @@ export default {
   data() {
 
     return {
-        
-        path: ''
+
+      path: '',
+      active: ''
     }
   },
-  mounted(){
+  computed: {
+    defaultActive() {
+      console.log('/' + this.$route.path.split('/').reverse()[1]);
+      const path = '/' + this.$route.path.split('/').reverse()[1];
+      if (path === '/profile') {
+        console.log(this.path)
+        return this.path;
+      } else {
+        return '/' + this.$route.path.split('/').reverse()[0];
+      }
+
+    }
+  },
+  mounted() {
     const user = JSON.parse(localStorage.getItem('user'));
-   // console.log(user);
+    // console.log(user);
     //console.log(user.username);
     this.path = "/profile/" + user.username;
+    const path = '/' + this.$route.path.split('/').reverse()[1];
+    if (path === '/profile') {
+      console.log(this.path)
+      this.active = this.path;
+    } else {
+      this.active = '/' + this.$route.path.split('/').reverse()[0];
+    }
   },
   methods: {
     handleCommand(command) {

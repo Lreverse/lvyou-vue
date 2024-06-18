@@ -30,9 +30,9 @@
         <el-row class="card-content">
           <el-row
             style="line-height: 34px;margin-top: 10px;margin-bottom:10px;text-align: justify;font-size: large;font-weight: bold;">
-            <el-col :span="5"><router-link
+            <el-col :span="6"><router-link
                 :to="{ path: `/detail/${schedule.scheduleId}` }">{{ schedule.title }}</router-link></el-col>
-            <el-col :span="10" :push="9" style="position: relative;top: 25px;">
+            <el-col :span="10" :push="8" style="position: relative;top: 25px;">
               <el-tag>{{schedule.maxNumber}}人</el-tag>
               <el-tag>{{schedule.departAt.toString().replace("T", ' ')}}出发</el-tag>
               <el-tag type="success" v-if="schedule.state === 'OPEN'">开放</el-tag>

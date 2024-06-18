@@ -63,6 +63,32 @@ Vue.prototype.postFetch = function postFetch(url, accessToken, body) {
   })
 }
 
+Vue.prototype.Fetch = function Fetch(url, accessToken, body,method) {
+
+  return fetch(new Request(url, {
+    method: method,
+    headers: {
+      'Authorization': accessToken,
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(body)
+  })).then(response => {
+    return response.json().then(data => {
+      if (data.code == "A020") {
+        console.log("receive new accessToken");
+        //console.log(localStorage.getItem('user'));
+        const user = JSON.parse(localStorage.getItem('user'));
+        user.accessToken = data.accessToken;
+        localStorage.setItem('user', JSON.stringify(user));
+
+        return Fetch(url, data.accessToken, body,method);
+      } else {
+        return data;
+      }
+    })
+  })
+}
+
 
 
 /* eslint-disable no-new */

@@ -3,7 +3,7 @@
     <el-card style="text-align: justify;margin-top: 50px;">
       <el-steps :active="active" simple>
         <el-step title="上传封面" icon="el-icon-picture"></el-step>
-        <el-step title="编辑信息 2" icon="el-icon-edit"></el-step>
+        <el-step title="编辑信息" icon="el-icon-edit"></el-step>
 
 
       </el-steps>
@@ -24,6 +24,9 @@
           <el-form-item label="目的地">
             <el-input v-model="form.destination"></el-input>
           </el-form-item>
+          <el-form-item label="描述" >
+            <el-input v-model="form.description" placeholder="一句话描述行程"></el-input>
+          </el-form-item>
           <el-form-item label="出发地">
             <el-input v-model="form.departLocation"></el-input>
           </el-form-item>
@@ -36,7 +39,7 @@
 
           </el-form-item>
           <el-form-item label="队伍人数">
-            <el-input-number v-model="form.maxNumber" @change="handleChange" :min="1" :max="1000"
+            <el-input-number v-model="form.maxNumber" :min="1" :max="1000"
               label="队伍人数"></el-input-number>
           </el-form-item>
           <el-form-item label="详情">
@@ -67,6 +70,7 @@ export default {
       form: {
         title: '',
         destination: '',
+        description: '',
         departAt: '',
         maxNumber: '',
         departlocation: '',

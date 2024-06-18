@@ -31,15 +31,15 @@
         <el-row class="card-content">
           <el-row
             style="line-height: 34px;margin-top: 35px;margin-bottom:10px;text-align: justify;font-size: large;font-weight: bold;">
-            <el-col :span="5">{{ schedule.title }}</el-col>
-            <el-col :span="5" :push="13">
+            <el-col :span="6">{{ schedule.title }}</el-col>
+            <el-col :span="5" :push="13" v-if="uid != schedule.createdBy">
               <el-button type="primary" round @click="submitApplication"
-                v-if="schedule.applicationState === 'UNAPPLY'">申请组队</el-button>
+                v-if="schedule.applicationState === 'UNAPPLY'  || schedule.applicationState === 'REJECT'">申请组队</el-button>
               
                   <el-tag type="success" v-if="schedule.applicationState === 'INVITED' || schedule.applicationState === 'APPROVE'"><i
-                    class="el-icon-check">已加入队伍</i></el-tag>
-              <el-tag type="danger" v-if="schedule.applicationState === 'REJECT'"><i
-                  class="el-icon-close">申请被拒绝</i></el-tag>
+                    class="el-icon-success">已加入队伍</i></el-tag>
+              <!-- <el-tag type="danger" v-if="schedule.applicationState === 'REJECT'"><i
+                  class="el-icon-error">申请被拒绝</i></el-tag> -->
               <el-tag type="success" v-if="schedule.applicationState === 'UNCHECK'"><i
                   class="el-icon-video-play">申请审核中</i></el-tag>
             </el-col>
@@ -72,7 +72,8 @@ export default {
   data() {
     return {
 
-      schedule: {}
+      schedule: {},
+      uid : ''
 
     }
   },
@@ -80,6 +81,7 @@ export default {
 
     //this.connect();
     const user = JSON.parse(localStorage.getItem('user'));
+    this.uid = user.uid;
     const token = user.accessToken;
     this.getFetch("http://127.0.0.1:8081/api/schedule/" + this.$route.params.scheduleId + "?uid=" + user.uid, token)
       .then((data) => { this.schedule = data.data; });
@@ -105,6 +107,7 @@ export default {
             message: '成功提交申请！',
             type: 'success'
           });
+          this.schedule.applicationState = 'UNCHECK'
         }
       })
     },
