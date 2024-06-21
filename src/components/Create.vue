@@ -43,7 +43,7 @@
               label="队伍人数"></el-input-number>
           </el-form-item>
           <el-form-item label="详情">
-            <el-input type="textarea" v-model="form.details"></el-input>
+            <el-input type="textarea" v-model="form.details" autosize></el-input>
           </el-form-item>
          
         </div>

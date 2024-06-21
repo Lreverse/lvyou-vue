@@ -80,7 +80,7 @@
                         </el-row>
 
                     </el-card>
-                    <el-dialog title="行程信息" :visible.sync="dialogForm1Visible">
+                    <el-dialog title="行程信息" :visible.sync="dialogForm1Visible" >
                         <el-form :model="form" label-position="right" style="margin-right: 60px;">
                             <el-form-item label="标题" :label-width="formLabelWidth">
                                 <el-input v-model="form.title"></el-input>
@@ -117,7 +117,7 @@
                                     disabled></el-switch>
                             </el-form-item>
                             <el-form-item label="详情" :label-width="formLabelWidth">
-                                <el-input type="textarea" v-model="form.details"></el-input>
+                                <el-input type="textarea" v-model="form.details" autosize></el-input>
                             </el-form-item>
                         </el-form>
                         <div slot="footer" class="dialog-footer">
@@ -143,19 +143,35 @@
                             </el-table-column>
                             <el-table-column prop="role" label="权限">
                                 <template slot-scope="scope">
-                                    <div v-show="scope.row.role === 'OWNER' ">创建者</div>
-                                    <div v-show="scope.row.role === 'ADMIN' ">管理员</div>
+                                    <div v-show="scope.row.role === 'OWNER'">创建者</div>
+                                    <div v-show="scope.row.role === 'ADMIN'">管理员</div>
                                     <div v-show="scope.row.role === 'USER'">普通成员</div>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="200">
                                 <template slot-scope="scope">
-                                    <el-button size="small" v-if="scope.row.role === 'USER'" @click="handleEdit(scope.$index, scope.row)">设置为管理员</el-button>
+                                    <el-button size="small" v-if="scope.row.role === 'USER'"
+                                        @click="handleEdit(scope.$index, scope.row)">设置为管理员</el-button>
                                     <el-button size="mini" type="danger"
-                                        @click="handleDelete(scope.$index, scope.row)">移除</el-button>
+                                        @click="handleDelete(scope.$index, scope.row)" v-show="!(scope.row.role === 'OWNER' || scope.row.role === 'ADMIN' || scope.row.username === user.username)">移除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <el-row style="margin-top: 30px;text-align: justify;">
+                            <el-col :span="20" :push="5">
+                                <span style="margin-right: 60px;"><b>添加成员</b></span>
+                                <el-autocomplete v-model="username" :fetch-suggestions="querySearch" @select="handleSelect"
+                            label="添加成员"
+                            placeholder="根据用户名或邮箱搜索"
+                            style="margin-right: 120px;"
+                            >
+                        </el-autocomplete>
+                            <el-button type="primary" @click="addUser">添加成员</el-button>
+                            </el-col>
+                            
+                            
+                        </el-row>
+                        
                     </el-dialog>
                 </el-tab-pane>
                 <el-tab-pane label="我参加的行程">
@@ -185,8 +201,7 @@
                         </el-row>
                     </el-card>
                 </el-tab-pane>
-                <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-                <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+               
             </el-tabs>
         </el-col>
 
@@ -199,6 +214,7 @@ export default {
     name: 'Profile',
     data() {
         return {
+            options: [],
             uploadAvatar: '',
             uploadCover: '',
             user: {},
@@ -220,7 +236,9 @@ export default {
             },
             formLabelWidth: '120px',
             state: '',
-            scheduleId: ''
+            scheduleId: '',
+            username: '',
+            //loading: false
 
         }
     },
@@ -247,31 +265,76 @@ export default {
 
     },
     methods: {
-        handleEdit(index, row){
+        addUser(){
+            if(this.username === '') return;
+            const body = {
+                username: this.username,
+                scheduleId: this.scheduleId
+            }
+            this.postFetch("http://127.0.0.1:8081/api/join","token",body)
+            .then(data =>{
+                console.log(data);
+                if(data.code === '000'){
+                    this.getMember(this.scheduleId);
+                    this.$message({
+                            message: '添加成功~',
+                            type: 'success'
+
+                        });
+                        this.username = '';
+                }else if(data.code === 'B001'){
+                    this.$message({
+                            message: '该成员已在队伍中~',
+                            type: 'warning'
+
+                        });
+                        this.username = '';
+                }
+                
+            })
+        },
+        handleSelect(item){
+            console.log(item);
+            this.username = item.value;
+        },
+        querySearch(query, callback) {
+            if (query != null && query.length != 0) {
+                
+                this.getFetch("http://127.0.0.1:8081/api/user/"+query, "token")
+                    .then(data => {
+                        const list = [];
+                        for (let v of data.data) {
+                            list.push({ value: v.username })
+                        }
+                        callback(list)
+                    })
+            }
+        },
+        handleEdit(index, row) {
             const user = JSON.parse(localStorage.getItem('user'))
             const uid = user.uid;
             const token = user.accessToken;
             const username = row.username;
             console.log(this.scheduleId);
             const scheduleId = this.scheduleId;
-            this.Fetch("http://127.0.0.1:8081/api/join/member?username="+username+"&scheduleId="+scheduleId,"token",{},"put")
-            .then(data => {
-                console.log(data);
-                this.getMember(this.scheduleId);
-            })
+            this.Fetch("http://127.0.0.1:8081/api/join/member?username=" + username + "&scheduleId=" + scheduleId, "token", {}, "put")
+                .then(data => {
+                    console.log(data);
+                    this.getMember(this.scheduleId);
+                })
 
         },
-        handleDelete(index, row){
+        handleDelete(index, row) {
             const user = JSON.parse(localStorage.getItem('user'))
             const uid = user.uid;
             const token = user.accessToken;
             const username = row.username;
             const scheduleId = this.scheduleId;
-            this.Fetch("http://127.0.0.1:8081/api/join/member?username="+username+"&scheduleId="+scheduleId,"token",{},"delete")
-            .then(data => {
-                console.log(data);
-                this.getMember(this.scheduleId);
-            })
+            this.Fetch("http://127.0.0.1:8081/api/join/member?username=" + username + "&scheduleId=" + scheduleId, "token", {}, "delete")
+                .then(data => {
+                    console.log(data);
+                    this.getMember(this.scheduleId);
+                })
         },
 
         getMember(scheduleId) {

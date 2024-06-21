@@ -46,6 +46,7 @@
         </el-row>
 
       </el-card>
+      <infinite-loading @infinite="infiniteHandler"></infinite-loading>
 
     </el-col>
 
@@ -63,6 +64,7 @@ export default {
   name: 'Home',
   data() {
     return {
+      page: 2,
       schedules: [{
         schedule: {
           images: {}
@@ -75,13 +77,27 @@ export default {
   //要么后端改 要么前端把信息传到后端
   methods: {
 
+    infiniteHandler($state){
+      const user = JSON.parse(localStorage.getItem('user'))
+    const token = user.accessToken;
+      this.getFetch("http://127.0.0.1:8081/api/schedule?page=" + this.page,token)
+      .then((data) => {
+        if(data.data.length){
+          this.page += 1;
+          this.schedules.push(...data.data);
+          $state.loaded();
+        }else{
+          $state.complete();
+        }
+      })
 
+    }
   },
   mounted() {
 
     function fetchData(accessToken) {
 
-      return fetch(new Request('http://127.0.0.1:8081/api/schedule', {
+      return fetch(new Request('http://127.0.0.1:8081/api/schedule?page=1', {
         method: 'get',
         headers: {
           'Authorization': accessToken
