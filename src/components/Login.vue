@@ -25,10 +25,12 @@
                         
                     </el-form-item>
                 </div>
-                <div class="btn_part">
-                    <div><el-button type="primary" class="btn" @click="login">登录</el-button></div>
+                <div class="bottom_part">
+                    <div class="btn_part">
+                        <el-button type="primary" class="btn" @click="login">登录</el-button>
+                    </div>
                     <div class="txt-r">
-                        <router-link to="/register">没有帐号？去注册</router-link>
+                        <el-link type="primary"><router-link to="/register">没有帐号？去注册</router-link></el-link>
                     </div>
                 </div>
 
