@@ -100,18 +100,8 @@ export default {
       const user = JSON.parse(localStorage.getItem('user'))
       const token = user.accessToken;
 
-      let requestInstance = new Request('http://127.0.0.1:8081/api/schedule', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Authorization': token
-        },
-        body: JSON.stringify(this.form)
-      })
-      fetch(requestInstance).then(response => {
-
-        let result = response.json()
-        result.then(res => {
+      this.postFetch("http://127.0.0.1:8081/api/schedule",token,this.form)
+      .then(res => {
           console.log(res);
           if (res.code === '000') {
             this.$router.replace('/home')
@@ -123,7 +113,20 @@ export default {
 
           }
         })
-      })
+
+      // let requestInstance = new Request('http://127.0.0.1:8081/api/schedule', {
+      //   method: 'post',
+      //   headers: {
+      //     'Content-Type': 'application/json;charset=utf-8',
+      //     'Authorization': token
+      //   },
+      //   body: JSON.stringify(this.form)
+      // })
+      // fetch(requestInstance).then(response => {
+
+      //   let result = response.json()
+        
+      // })
     }
   }
 }

@@ -106,7 +106,7 @@ export default {
         return response.json().then(data => {
           if (data.code == "A020") {
             console.log("receive new accessToken");
-            return fetchData(data.accessToken);
+            return fetchData(data.data);
           } else {
             return data;
           }

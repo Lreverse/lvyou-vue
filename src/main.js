@@ -30,9 +30,9 @@ Vue.prototype.getFetch = function getFetch(url, accessToken) {
         console.log("receive new accessToken");
         //console.log(localStorage.getItem('user'));
         const user = JSON.parse(localStorage.getItem('user'));
-        user.accessToken = data.accessToken;
+        user.accessToken = data.data;
         localStorage.setItem('user', JSON.stringify(user));
-        return getFetch(url, data.accessToken);
+        return getFetch(url, data.data);
       } else {
         return data;
       }
@@ -55,10 +55,10 @@ Vue.prototype.postFetch = function postFetch(url, accessToken, body) {
         console.log("receive new accessToken");
         //console.log(localStorage.getItem('user'));
         const user = JSON.parse(localStorage.getItem('user'));
-        user.accessToken = data.accessToken;
+        user.accessToken = data.data;
         localStorage.setItem('user', JSON.stringify(user));
 
-        return postFetch(url, data.accessToken, body);
+        return postFetch(url, data.data, body);
       } else {
         return data;
       }
@@ -81,10 +81,10 @@ Vue.prototype.Fetch = function Fetch(url, accessToken, body,method) {
         console.log("receive new accessToken");
         //console.log(localStorage.getItem('user'));
         const user = JSON.parse(localStorage.getItem('user'));
-        user.accessToken = data.accessToken;
+        user.accessToken = data.data;
         localStorage.setItem('user', JSON.stringify(user));
 
-        return Fetch(url, data.accessToken, body,method);
+        return Fetch(url, data.data, body,method);
       } else {
         return data;
       }
