@@ -6,18 +6,18 @@
         <el-link class="switch" type="primary" @click="switchType">{{ text }}</el-link>
         <div v-if="type === 'username'">
           <el-form-item label="用户名" prop="username" size="large">
-            <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+            <el-input ref="input_user" v-model="form.username" placeholder="请输入用户名" @keyup.native.enter="focusNextInput('input_pwd')"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password" size="large">
-            <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+            <el-input ref="input_pwd" v-model="form.password" type="password" placeholder="请输入密码" @keyup.native.enter="register"></el-input>
           </el-form-item>
         </div>
         <div v-if="type === 'email'">
           <el-form-item label="邮箱地址" size="large">
-            <el-input v-model="form.mailAddress" placeholder="邮箱"></el-input>
+            <el-input ref="input_mail" v-model="form.mailAddress" placeholder="邮箱" @keyup.native.enter="focusNextInput('input_code')"></el-input>
           </el-form-item>
           <el-form-item label="验证码" size="large">
-            <el-input v-model="form.code" placeholder="请输入验证码">
+            <el-input ref="input_code" v-model="form.code" placeholder="请输入验证码" @keyup.native.enter="register">
               <template #append>
                 <el-button type="primary" @click="sendVerifyCode" plain>发送验证码</el-button>
               </template>
@@ -141,6 +141,7 @@ export default {
         })
       }
     },
+
     switchType() {
       if (this.type === 'username') {
         this.text = "用户名密码注册"
@@ -150,6 +151,7 @@ export default {
         this.type = "username"
       }
     },
+
     sendVerifyCode() {
       let requestInstance = new Request('http://127.0.0.1:8081/api/user/register/verifyCode/' + this.form.mailAddress, {
         method: 'get',
@@ -174,6 +176,13 @@ export default {
           }
         })
       })
+    },
+
+    focusNextInput(refName) {
+      const nextInput = this.$refs[refName]
+      if (nextInput) {
+        nextInput.focus()
+      }
     }
   }
 
