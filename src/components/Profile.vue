@@ -300,7 +300,7 @@ export default {
         querySearch(query, callback) {
             if (query != null && query.length != 0) {
                 
-                this.getFetch("http://127.0.0.1:8081/api/user/"+query, "token")
+                this.getFetch("http://127.0.0.1:8081/api/query/"+query, "token")
                     .then(data => {
                         const list = [];
                         for (let v of data.data) {
