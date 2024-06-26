@@ -15,10 +15,10 @@
             <i><img class="icon" src="../assets/message.png" alt=""></i>
             <span slot="title">通知</span>
           </el-menu-item>
-          <el-menu-item index="/search">
+          <!-- <el-menu-item index="/search">
             <i><img class="icon" src="../assets/search.png" alt=""></i>
             <span slot="title">搜索</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <el-menu-item index="/create">
             <i><img class="icon" src="../assets/create.png" alt=""></i>
             <span slot="title">新建</span>
@@ -95,19 +95,32 @@ export default {
   },
   methods: {
     handleCommand(command) {
-      if (command === 'logout') {
-        fetch("http://127.0.0.1:8081/api/user/logout")
-          .then(response => response.json())
-          .then((data) => {
-            console.log(data);
 
+      if (command === 'logout') {
+        const user = JSON.parse(localStorage.getItem('user'));
+        this.uid = user.uid;
+        const token = user.accessToken;
+        this.getFetch("http://127.0.0.1:8081/api/user/logout", token)
+          .then(data => {
+            localStorage.removeItem('user');
+            this.$router.replace('/login');
+            this.$message({
+              message: '退出登录',
+              type: 'success'
+            });
           })
-        localStorage.removeItem('user');
-        this.$router.replace('/login');
-        this.$message({
-          message: '退出登录',
-          type: 'success'
-        });
+        // fetch("http://127.0.0.1:8081/api/user/logout")
+        //   .then(response => response.json())
+        //   .then((data) => {
+        //     console.log(data);
+
+        //   })
+        // localStorage.removeItem('user');
+        // this.$router.replace('/login');
+        // this.$message({
+        //   message: '退出登录',
+        //   type: 'success'
+        // });
       }
     }
   }

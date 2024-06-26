@@ -99,6 +99,11 @@ export default {
                                 type: 'success'
                             });
 
+                        }else if(res.code === 'A011'){
+                            this.$message({
+                                message: '用户名或密码错误！',
+                                type: 'error'
+                            });
                         }
                     })
                 })
