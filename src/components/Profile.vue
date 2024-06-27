@@ -389,8 +389,13 @@ export default {
         handleAvatarSuccess(resp) {
             // console.log(resp);
             // console.log(file);
+
+            //更新当前页面的头像
             this.user.avatarSrc = resp.data;
-            localStorage.setItem('user', JSON.stringify(this.user));
+            //更新localStorage中的头像
+            const user = JSON.parse(localStorage.getItem('user'))
+            user.avatarSrc = resp.data;
+            localStorage.setItem('user', JSON.stringify(user));
             this.$message({
                 message: '上传成功~',
                 type: 'success'
@@ -401,7 +406,9 @@ export default {
             // console.log(resp);
             // console.log(file);
             this.user.coverSrc = resp.data;
-            localStorage.setItem('user', JSON.stringify(this.user));
+            const user = JSON.parse(localStorage.getItem('user'))
+            user.coverSrc = resp.data;
+            localStorage.setItem('user', JSON.stringify(user));
             this.$message({
                 message: '上传成功~',
                 type: 'success'
