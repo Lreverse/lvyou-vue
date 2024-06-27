@@ -33,13 +33,13 @@
             <el-col :span="6">{{ schedule.title }}</el-col>
             <el-col :span="5" :push="13" v-if="uid != schedule.createdBy">
               <el-button type="primary" round @click="submitApplication"
-                v-if="schedule.applicationState === 'UNAPPLY' || schedule.applicationState === 'REJECT'">申请组队</el-button>
+                v-if="(schedule.applicationState === 'UNAPPLY' || schedule.applicationState === 'REJECT')&& schedule.state === 'OPEN'">申请组队</el-button>
 
               <el-tag type="success"
                 v-if="schedule.applicationState === 'INVITED' || schedule.applicationState === 'APPROVE'"><i
                   class="el-icon-success">已加入队伍</i></el-tag>
-              <!-- <el-tag type="danger" v-if="schedule.applicationState === 'REJECT'"><i
-                  class="el-icon-error">申请被拒绝</i></el-tag> -->
+              <el-tag type="danger" v-if="schedule.state === 'CLOSE'"><i
+                  class="el-icon-error">队伍已关闭</i></el-tag>
               <el-tag type="success" v-if="schedule.applicationState === 'UNCHECK'"><i
                   class="el-icon-video-play">申请审核中</i></el-tag>
             </el-col>

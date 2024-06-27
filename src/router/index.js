@@ -9,10 +9,11 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Profile from '@/components/Profile'
 import HomePage from '@/views/HomePage'
+import {Message} from 'element-ui'
 
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   mode: 'history',   // 路由模式，该模式不会在地址中显示井号#
   routes: [
     {
@@ -65,3 +66,17 @@ export default new Router({
     
   ]
 })
+
+router.beforeEach((to,from,next) => {
+  let isAuthenticated = !!localStorage.getItem('user');
+  if(to.path !== '/login' && to.path !== '/register' && !isAuthenticated){
+    next({path: '/login'});
+    Message({
+      message: '请先登录！',
+      type: 'warning'
+    });
+  }else next();
+})
+
+
+export default router;
