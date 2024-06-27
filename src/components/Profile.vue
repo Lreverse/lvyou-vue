@@ -248,12 +248,12 @@ export default {
         const uid = user.uid;
         const token = user.accessToken;
 
-        this.getFetch("http://127.0.0.1:8081/api" + this.$route.path, "token")
+        this.getFetch("/api" + this.$route.path, "token")
             .then((data) => { this.user = data.data; });
-        this.uploadAvatar = "http://127.0.0.1:8081/api/uploadAvatar?uid=" + uid;
-        this.uploadCover = "http://127.0.0.1:8081/api/uploadCover?uid=" + uid;
+        this.uploadAvatar = "/api/uploadAvatar?uid=" + uid;
+        this.uploadCover = "/api/uploadCover?uid=" + uid;
 
-        this.getFetch("http://127.0.0.1:8081/api/schedule/mySchedule/" + uid, token)
+        this.getFetch("/api/schedule/mySchedule/" + uid, token)
             .then(data => {
                 this.schedulesIJoin = data.data.user;
                 this.schedulesIAdmin = data.data.admin;
@@ -271,7 +271,7 @@ export default {
                 username: this.username,
                 scheduleId: this.scheduleId
             }
-            this.postFetch("http://127.0.0.1:8081/api/join","token",body)
+            this.postFetch("/api/join","token",body)
             .then(data =>{
                 console.log(data);
                 if(data.code === '000'){
@@ -300,7 +300,7 @@ export default {
         querySearch(query, callback) {
             if (query != null && query.length != 0) {
                 
-                this.getFetch("http://127.0.0.1:8081/api/query/"+query, "token")
+                this.getFetch("/api/query/"+query, "token")
                     .then(data => {
                         const list = [];
                         for (let v of data.data) {
@@ -317,7 +317,7 @@ export default {
             const username = row.username;
             console.log(this.scheduleId);
             const scheduleId = this.scheduleId;
-            this.Fetch("http://127.0.0.1:8081/api/join/member?username=" + username + "&scheduleId=" + scheduleId, "token", {}, "put")
+            this.Fetch("/api/join/member?username=" + username + "&scheduleId=" + scheduleId, "token", {}, "put")
                 .then(data => {
                     console.log(data);
                     this.getMember(this.scheduleId);
@@ -330,7 +330,7 @@ export default {
             const token = user.accessToken;
             const username = row.username;
             const scheduleId = this.scheduleId;
-            this.Fetch("http://127.0.0.1:8081/api/join/member?username=" + username + "&scheduleId=" + scheduleId, "token", {}, "delete")
+            this.Fetch("/api/join/member?username=" + username + "&scheduleId=" + scheduleId, "token", {}, "delete")
                 .then(data => {
                     console.log(data);
                     this.getMember(this.scheduleId);
@@ -343,7 +343,7 @@ export default {
             const token = user.accessToken;
             this.scheduleId = scheduleId;
 
-            this.getFetch("http://127.0.0.1:8081/api/schedule/member/" + scheduleId, token)
+            this.getFetch("/api/schedule/member/" + scheduleId, token)
                 .then(data => {
                     this.tableData = data.data;
                 })
@@ -359,7 +359,7 @@ export default {
                 form.state = 'CLOSE';
             }
 
-            this.Fetch("http://127.0.0.1:8081/api/schedule", token, form, "put")
+            this.Fetch("/api/schedule", token, form, "put")
                 .then(data => {
                     if (data.code === '000') {
                         this.$message({
@@ -375,7 +375,7 @@ export default {
             const user = JSON.parse(localStorage.getItem('user'))
             const uid = user.uid;
             const token = user.accessToken;
-            this.getFetch("http://127.0.0.1:8081/api/schedule/scheduleInfo/" + scheduleId, token)
+            this.getFetch("/api/schedule/scheduleInfo/" + scheduleId, token)
                 .then((data) => {
                     console.log(data);
                     this.form = data.data;

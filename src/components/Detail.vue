@@ -144,7 +144,7 @@ export default {
     const user = JSON.parse(localStorage.getItem('user'));
     this.uid = user.uid;
     const token = user.accessToken;
-    this.getFetch("http://127.0.0.1:8081/api/schedule/" + this.$route.params.scheduleId + "?uid=" + user.uid, token)
+    this.getFetch("/api/schedule/" + this.$route.params.scheduleId + "?uid=" + user.uid, token)
       .then((data) => { this.schedule = data.data; });
     //data.data 刚开始没写 我还奇怪数据库就两条数据，为什么给我渲染了三条
     //刚开始用的axios，但是不知道为什么报跨域的错误，我后端已经配置了
@@ -159,7 +159,7 @@ export default {
         uid: user.uid
       }
 
-      this.postFetch('http://127.0.0.1:8081/api/application', token, body).then(data => {
+      this.postFetch('/api/application', token, body).then(data => {
         console.log(data);
         if (data.code === '000') {
 
