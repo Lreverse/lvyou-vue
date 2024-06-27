@@ -83,7 +83,7 @@ export default {
         console.log(this.uid);
         const user = JSON.parse(localStorage.getItem('user'))
         const token = user.accessToken;
-        this.getFetch("http://127.0.0.1:8081/api/notice" + "?uid=" + user.uid, token)
+        this.getFetch("/api/notice" + "?uid=" + user.uid, token)
             .then((data) => { this.notices = data.data; console.log(this.notices)});
 
     },
@@ -91,7 +91,7 @@ export default {
         approve(notice){
              const body = notice;
              body.state = 'APPROVE';
-            this.Fetch("http://127.0.0.1:8081/api/application","token",body,"put")
+            this.Fetch("/api/application","token",body,"put")
             .then((data) => {
                 console.log(data)
             })
@@ -100,7 +100,7 @@ export default {
         reject(notice){
             const body = notice;
             body.state = 'REJECT';
-            this.Fetch("http://127.0.0.1:8081/api/application","token",body,"put")
+            this.Fetch("/api/application","token",body,"put")
             .then((data) => {
                 console.log(data)
             })

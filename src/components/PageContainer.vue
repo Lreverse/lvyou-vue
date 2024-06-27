@@ -100,7 +100,7 @@ export default {
         const user = JSON.parse(localStorage.getItem('user'));
         this.uid = user.uid;
         const token = user.accessToken;
-        this.getFetch("http://127.0.0.1:8081/api/user/logout", token)
+        this.getFetch("/api/user/logout", token)
           .then(data => {
             localStorage.removeItem('user');
             this.$router.replace('/login');
@@ -109,7 +109,7 @@ export default {
               type: 'success'
             });
           })
-        // fetch("http://127.0.0.1:8081/api/user/logout")
+        // fetch("/api/user/logout")
         //   .then(response => response.json())
         //   .then((data) => {
         //     console.log(data);

@@ -11,7 +11,7 @@
 
       <el-form ref="form" :model="form" label-width="80px">
         <div v-show="active === 1">
-          <el-upload class="upload" :on-success="handleSuccess" drag action="http://127.0.0.1:8081/api/uploadScheduleImage" multiple style="text-align: center;margin-top: 100px;">
+          <el-upload class="upload" :on-success="handleSuccess" drag action="/api/uploadScheduleImage" multiple style="text-align: center;margin-top: 100px;">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -100,7 +100,7 @@ export default {
       const user = JSON.parse(localStorage.getItem('user'))
       const token = user.accessToken;
 
-      this.postFetch("http://127.0.0.1:8081/api/schedule",token,this.form)
+      this.postFetch("/api/schedule",token,this.form)
       .then(res => {
           console.log(res);
           if (res.code === '000') {
@@ -114,7 +114,7 @@ export default {
           }
         })
 
-      // let requestInstance = new Request('http://127.0.0.1:8081/api/schedule', {
+      // let requestInstance = new Request('/api/schedule', {
       //   method: 'post',
       //   headers: {
       //     'Content-Type': 'application/json;charset=utf-8',

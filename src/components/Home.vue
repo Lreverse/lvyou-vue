@@ -80,7 +80,7 @@ export default {
     infiniteHandler($state){
       const user = JSON.parse(localStorage.getItem('user'))
     const token = user.accessToken;
-      this.getFetch("http://127.0.0.1:8081/api/schedule?page=" + this.page,token)
+      this.getFetch("/api/schedule?page=" + this.page,token)
       .then((data) => {
         if(data.data.length){
           this.page += 1;
@@ -97,7 +97,7 @@ export default {
 
     function fetchData(accessToken) {
 
-      return fetch(new Request('http://127.0.0.1:8081/api/schedule?page=1', {
+      return fetch(new Request('/api/schedule?page=1', {
         method: 'get',
         headers: {
           'Authorization': accessToken

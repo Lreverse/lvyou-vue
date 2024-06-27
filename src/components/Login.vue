@@ -72,7 +72,7 @@ export default {
 
         login() {
             if (this.type === 'username') {
-                let requestInstance = new Request('http://127.0.0.1:8081/api/user/login', {
+                let requestInstance = new Request('/api/user/login', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8',
@@ -104,7 +104,7 @@ export default {
                 })
             }
             else if (this.type === 'email') {
-                let requestInstance = new Request('http://127.0.0.1:8081/api/user/loginByMail', {
+                let requestInstance = new Request('/api/user/loginByMail', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8',
@@ -146,7 +146,7 @@ export default {
 
         sendVerifyCode() {
 
-            let requestInstance = new Request('http://127.0.0.1:8081/api/user/login/verifyCode/' + this.form.mailAddress, {
+            let requestInstance = new Request('/api/user/login/verifyCode/' + this.form.mailAddress, {
                 method: 'get',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
