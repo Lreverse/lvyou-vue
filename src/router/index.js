@@ -69,7 +69,7 @@ const router =  new Router({
 
 router.beforeEach((to,from,next) => {
   let isAuthenticated = !!localStorage.getItem('user');
-  if(to.path !== '/login' && to.path !== '/register' && !isAuthenticated){
+  if(to.path !== '/login' && to.path !== '/register' && !isAuthenticated && to.path !== '/'){
     next({path: '/login'});
     Message({
       message: '请先登录！',
