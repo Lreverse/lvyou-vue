@@ -2,7 +2,7 @@
 
   <el-row>
     <el-col :span="14" :offset="2">
-      <el-card :body-style="{ padding: '15px' }" v-for="schedule in schedules" :key="schedule.scheduleId">
+      <el-card :body-style="{ padding: '25px' }" v-for="schedule in schedules" :key="schedule.scheduleId">
 
         <el-row class="card-header">
           <el-col>
@@ -13,7 +13,7 @@
             </span>
           </el-col>
         </el-row>
-        <el-row class="card-image">
+        <el-row class="card-image" v-show=" schedule.images !== '{}'">
           <el-col>
 
             <div class="block">
@@ -148,7 +148,11 @@ export default {
 }
 
 .el-card {
-  height: 500px;
+  /* height: 500px; */
+  margin-bottom: 50px;
+}
+.el-card-no_image{
+  height: 200px;
   margin-bottom: 50px;
 }
 

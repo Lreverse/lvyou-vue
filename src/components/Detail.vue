@@ -5,16 +5,15 @@
       <el-card :body-style="{ padding: '15px' }">
 
         <el-row class="card-header">
-                    <el-col>
-                        <el-avatar
-                            :src="schedule.user.avatarSrc"></el-avatar>
-                        <span id="username"
-                            style="position:absolute;margin-left:10px;font-size: 16px;font-weight: bold;font-family: 'Courier New', Courier, monospace;">
-                            {{schedule.user.username}}
-                        </span>
-                    </el-col>
-                </el-row>
-        <el-row class="card-image">
+          <el-col>
+            <el-avatar :src="schedule.user.avatarSrc"></el-avatar>
+            <span id="username"
+              style="position:absolute;margin-left:10px;font-size: 16px;font-weight: bold;font-family: 'Courier New', Courier, monospace;">
+              {{ schedule.user.username }}
+            </span>
+          </el-col>
+        </el-row>
+        <el-row class="card-image" v-show="JSON.stringify(schedule.images) !== '{}'">
           <el-col>
 
             <div class="block">
@@ -34,10 +33,11 @@
             <el-col :span="6">{{ schedule.title }}</el-col>
             <el-col :span="5" :push="13" v-if="uid != schedule.createdBy">
               <el-button type="primary" round @click="submitApplication"
-                v-if="schedule.applicationState === 'UNAPPLY'  || schedule.applicationState === 'REJECT'">申请组队</el-button>
-              
-                  <el-tag type="success" v-if="schedule.applicationState === 'INVITED' || schedule.applicationState === 'APPROVE'"><i
-                    class="el-icon-success">已加入队伍</i></el-tag>
+                v-if="schedule.applicationState === 'UNAPPLY' || schedule.applicationState === 'REJECT'">申请组队</el-button>
+
+              <el-tag type="success"
+                v-if="schedule.applicationState === 'INVITED' || schedule.applicationState === 'APPROVE'"><i
+                  class="el-icon-success">已加入队伍</i></el-tag>
               <!-- <el-tag type="danger" v-if="schedule.applicationState === 'REJECT'"><i
                   class="el-icon-error">申请被拒绝</i></el-tag> -->
               <el-tag type="success" v-if="schedule.applicationState === 'UNCHECK'"><i
@@ -47,6 +47,67 @@
           </el-row>
           <el-row style="line-height: 16px;text-align: justify;font-family: 'Courier New', Courier, monospace;">
             {{ schedule.description }}
+          </el-row>
+          <el-row style="text-align: justify;">
+            <el-descriptions class="margin-top" title="行程信息" :column="3" :size="size" border>
+              
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-user"></i>
+                  创建者
+                </template>
+                {{schedule.user.username}}
+              </el-descriptions-item>
+              <!-- <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-mobile-phone"></i>
+                  手机号
+                </template>
+                18100000000
+              </el-descriptions-item> -->
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-location-outline"></i>
+                  目的地
+                </template>
+                {{schedule.destination}}
+              </el-descriptions-item>
+              <!-- <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-tickets"></i>
+                  备注
+                </template>
+                <el-tag size="small">学校</el-tag>
+              </el-descriptions-item> -->
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-office-building"></i>
+                  出发地
+                </template>
+                {{schedule.departLocation}}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-watch"></i>
+                  出发时间
+                </template>
+                {{schedule.departAt.toString().replace("T", ' ')}}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-user-solid"></i>
+                  当前人数
+                </template>
+                {{schedule.currentNumber}}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-user-solid"></i>
+                  队伍规模
+                </template>
+                {{schedule.maxNumber}}
+              </el-descriptions-item>
+            </el-descriptions>
           </el-row>
         </el-row>
         <el-row class="detail" style="text-align: justify;">
@@ -73,7 +134,7 @@ export default {
     return {
 
       schedule: {},
-      uid : ''
+      uid: ''
 
     }
   },
@@ -111,20 +172,20 @@ export default {
         }
       })
     },
-    connect(){
+    connect() {
       let socket = new WebSocket('ws://127.0.0.1:8081/lvyou-websocket');
-    var stompClient = Stomp.over(socket);
-    stompClient.connect({}, frame => {
+      var stompClient = Stomp.over(socket);
+      stompClient.connect({}, frame => {
         console.log('Connected: ' + frame);
         const payload = { message: 'Hello, Server!' };
         stompClient.send('/app/hello', {}, JSON.stringify(payload));
         // 连接成功后订阅主题
         stompClient.subscribe('/topic/greetings', message => {
-            console.log('Received: ' + message.body);
+          console.log('Received: ' + message.body);
         });
-    }, error => {
+      }, error => {
         console.error('Error connecting: ' + error);
-    });
+      });
     }
 
   }
