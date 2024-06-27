@@ -8,6 +8,7 @@ import Create from '@/components/Create'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Profile from '@/components/Profile'
+import HomePage from '@/views/HomePage'
 
 Vue.use(Router)
 
@@ -16,7 +17,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      name: 'HomePage',
+      component: HomePage
     },
     {
       path: '/explore',
@@ -52,6 +54,7 @@ export default new Router({
     },
     {
       path: '/login',
+      name: 'Login',
       component: Login
     },
     {
