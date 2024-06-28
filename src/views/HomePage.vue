@@ -10,7 +10,7 @@
                 <div class="menu-button"><el-button type="text" @click="showAbout" class="button-text">关于</el-button>
                 </div>
                 <div class="menu-button"><el-button type="text" @click="navigateTo('/login')"
-                        class="button-text">登录</el-button></div>
+                        class="button-text">登录/注册</el-button></div>
             </el-row>
         </el-header>
 
