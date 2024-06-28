@@ -13,10 +13,10 @@
           </el-form-item>
         </div>
         <div v-if="type === 'email'">
-          <el-form-item label="邮箱地址" size="large">
+          <el-form-item label="邮箱地址" size="large" prop="email">
             <el-input ref="input_mail" v-model="form.mailAddress" placeholder="邮箱" @keyup.native.enter="focusNextInput('input_code')"></el-input>
           </el-form-item>
-          <el-form-item label="验证码" size="large">
+          <el-form-item label="验证码" size="large" prop="code">
             <el-input ref="input_code" v-model="form.code" placeholder="请输入验证码" @keyup.native.enter="register">
               <template #append>
                 <el-button type="primary" @click="sendVerifyCode" plain>发送验证码</el-button>
@@ -60,18 +60,29 @@ export default {
         password: ''
 
       },
-      // rules : {
-      //   username : {
-      //     required : true,
-      //     message : "请输入用户名",
-      //     trigger : ['change']
-      //   },
-      //   password : {
-      //     required : true,
-      //     message : "长度至少为2位",
-      //     min : 2,
-      //     trigger : ['change']
-      //   },
+      rules : {
+        username : {
+          required : true,
+          message : "请输入用户名",
+          trigger : ['change']
+        },
+        password : {
+          required : true,
+          message : "长度至少为6位",
+          min : 6,
+          trigger : ['change']
+        },
+        email : {
+          required : true,
+          message : "请输入邮箱地址",
+          trigger : ['change']
+        },
+        code : {
+          required : true,
+          message : "请输入验证码",
+          trigger : ['change']
+        },
+      }
       //   cfmpassword: [
       //     {
       //       required : true,
@@ -89,6 +100,7 @@ export default {
   },
   methods: {
     register() {
+      this.$refs.form.validate()
       if (this.type === 'username') {
         let requestInstance = new Request('/api/user/register', {
           method: 'post',
