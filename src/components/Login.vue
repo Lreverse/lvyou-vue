@@ -184,6 +184,11 @@ export default {
                             type: 'success'
                         });
 
+                    }else if(res.code === 'A021'){
+                        this.$message({
+                            message: '该邮箱未被注册！',
+                            type: 'error'
+                        });
                     }
                 })
             })

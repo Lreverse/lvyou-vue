@@ -13,6 +13,9 @@
           </el-form-item>
         </div>
         <div v-if="type === 'email'">
+          <el-form-item label="用户名" prop="username" size="large">
+            <el-input ref="input_user" v-model="form.username" placeholder="请输入用户名" @keyup.native.enter="focusNextInput('input_pwd')"></el-input>
+          </el-form-item>
           <el-form-item label="邮箱地址" size="large" prop="email">
             <el-input ref="input_mail" v-model="form.mailAddress" placeholder="邮箱" @keyup.native.enter="focusNextInput('input_code')"></el-input>
           </el-form-item>
@@ -123,6 +126,12 @@ export default {
                 type: 'success'
               });
 
+            }else if(res.code === 'A014'){
+
+              this.$message({
+                message: '用户名已存在！',
+                type: 'error'
+              });
             }
           })
         })
@@ -185,7 +194,12 @@ export default {
               type: 'success'
             });
 
-          }
+          }else if(res.code === 'A024'){
+              this.$message({
+                message: '该邮箱已被注册！',
+                type: 'error'
+              });
+            }
         })
       })
     },
