@@ -14,7 +14,7 @@
         </div>
         <div v-if="type === 'email'">
           <el-form-item label="用户名" prop="username" size="large">
-            <el-input ref="input_user" v-model="form.username" placeholder="请输入用户名" @keyup.native.enter="focusNextInput('input_pwd')"></el-input>
+            <el-input ref="input_user" v-model="form.username" placeholder="请输入用户名" @keyup.native.enter="focusNextInput('input_mail')"></el-input>
           </el-form-item>
           <el-form-item label="邮箱地址" size="large" prop="email">
             <el-input ref="input_mail" v-model="form.mailAddress" placeholder="邮箱" @keyup.native.enter="focusNextInput('input_code')"></el-input>
